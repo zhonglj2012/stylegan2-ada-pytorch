@@ -109,9 +109,9 @@ class FullyConnectedLayer(torch.nn.Module):
             self.weight = torch.nn.Parameter(weight)
             self.bias = torch.nn.Parameter(bias) if bias is not None else None
         else:
-            self.register_buffer('weight', weight)
+            self.register_buffer('weight', torch.nn.Parameter(weight))
             if bias is not None:
-                self.register_buffer('bias', bias)
+                self.register_buffer('bias', torch.nn.Parameter(bias))
             else:
                 self.bias = None
 
