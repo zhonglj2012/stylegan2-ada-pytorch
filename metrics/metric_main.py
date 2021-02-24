@@ -83,7 +83,7 @@ def report_metric(result_dict, run_dir=None, snapshot_pkl=None):
 def fid50k_full(opts):
     opts.dataset_kwargs.update(max_size=None, xflip=False)
     fid = frechet_inception_distance.compute_fid(opts, max_real=2, num_gen=2)
-    return dict(fid50k_full=fid)d
+    return dict(fid50k_full=fid)
 
 @register_metric
 def kid50k_full(opts):
