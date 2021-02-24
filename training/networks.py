@@ -94,6 +94,7 @@ class FullyConnectedLayer(torch.nn.Module):
         activation      = 'linear', # Activation function: 'relu', 'lrelu', etc.
         lr_multiplier   = 1,        # Learning rate multiplier.
         bias_init       = 0,        # Initial value for the additive bias.
+        trainable       = True,
     ):
         super().__init__()
         self.activation = activation
@@ -104,11 +105,15 @@ class FullyConnectedLayer(torch.nn.Module):
 
         self.weight_gain = lr_multiplier / np.sqrt(in_features)
         self.bias_gain = lr_multiplier
-        self.register_buffer('weight', weight)
-        if bias is not None:
-            self.register_buffer('bias', bias)
+        if trainable:
+            self.weight = torch.nn.Parameter(weight)
+            self.bias = torch.nn.Parameter(bias) if bias is not None else None
         else:
-            self.bias = None
+            self.register_buffer('weight', weight)
+            if bias is not None:
+                self.register_buffer('bias', bias)
+            else:
+                self.bias = None
 
     def forward(self, x):
         w = self.weight.to(x.dtype) * self.weight_gain
