@@ -214,11 +214,11 @@ class MappingNetwork(torch.nn.Module):
         features_list = [z_dim + embed_features] + [layer_features] * (num_layers - 1) + [w_dim]
 
         if c_dim > 0:
-            self.embed = FullyConnectedLayer(c_dim, embed_features)
+            self.embed = FullyConnectedLayer(c_dim, embed_features, trainable = False)
         for idx in range(num_layers):
             in_features = features_list[idx]
             out_features = features_list[idx + 1]
-            layer = FullyConnectedLayer(in_features, out_features, activation=activation, lr_multiplier=lr_multiplier)
+            layer = FullyConnectedLayer(in_features, out_features, activation=activation, lr_multiplier=lr_multiplier, trainable = False)
             setattr(self, f'fc{idx}', layer)
 
         if num_ws is not None and w_avg_beta is not None:
