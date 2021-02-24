@@ -58,7 +58,8 @@ class StyleGAN2Loss(Loss):
         assert phase in ['Gmain', 'Greg', 'Gboth', 'Dmain', 'Dreg', 'Dboth']
         do_Gmain = (phase in ['Gmain', 'Gboth'])
         do_Dmain = (phase in ['Dmain', 'Dboth'])
-        do_Gpl   = (phase in ['Greg', 'Gboth']) and (self.pl_weight != 0)
+        # do_Gpl   = (phase in ['Greg', 'Gboth']) and (self.pl_weight != 0)
+        do_Gpl = False
         do_Dr1   = (phase in ['Dreg', 'Dboth']) and (self.r1_gamma != 0)
 
         # Gmain: Maximize logits for generated images.
